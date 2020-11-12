@@ -22,9 +22,9 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
 
             $table->foreign('tenant_id')
-            ->references('id')
-            ->on('tenants')
-            ->onDelete('cascade');
+                        ->references('id')
+                        ->on('tenants')
+                        ->onDelete('cascade');
         });
     }
 
