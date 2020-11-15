@@ -254,11 +254,16 @@ return [
         [
             'text' => 'Categorias',
             'url'  => 'admin/categories',
-            'icon' => 'fas fa-layer-group'
+            'icon' => 'fas fa-hamburger'
         ],
         [
             'text' => 'Produtos',
             'url'  => 'admin/products',
+            'icon' => 'fas fa-tablet'
+        ],
+        [
+            'text' => 'Mesas',
+            'url'  => 'admin/tables',
             'icon' => 'fas fa-layer-group'
         ],
     ],
