@@ -15,6 +15,8 @@ class PermissionProfileController extends Controller
     {
         $this->profile = $profile;
         $this->permission = $permission;
+
+        $this->middleware(['can:profiles']);
     }
 
     public function permissions($idProfile)
@@ -26,7 +28,7 @@ class PermissionProfileController extends Controller
         }
 
         $permissions = $profile->permissions()->paginate();
-    
+
         return view('admin.pages.profiles.permissions.permissions', compact('profile', 'permissions'));
     }
 
@@ -38,7 +40,7 @@ class PermissionProfileController extends Controller
         }
 
         $profiles = $permission->profiles()->paginate();
-    
+
         return view('admin.pages.permissions.profiles.profiles', compact('permission', 'profiles'));
     }
 
@@ -46,8 +48,8 @@ class PermissionProfileController extends Controller
     {
         if(!$profile = $this->profile->find($idProfile)) {
             return redirect()->back();
-        }    
-       
+        }
+
         $filters = $request->except('_token');
 
         $permissions = $profile->permissionsAvailable($request->filter);
@@ -59,8 +61,8 @@ class PermissionProfileController extends Controller
     {
         if(!$profile = $this->profile->find($idProfile)) {
             return redirect()->back();
-        }    
-       
+        }
+
        if (!$request->permissions || count($request->permissions) == 0) {
             return redirect()
             ->back()
@@ -68,9 +70,9 @@ class PermissionProfileController extends Controller
        }
 
         $profile->permissions()->attach($request->permissions);
-        
+
         return redirect()->route('profiles.permissions', $profile->id);
-    
+
     }
 
     public function detachPermissionProfile($idProfile, $idPermission)
@@ -79,12 +81,12 @@ class PermissionProfileController extends Controller
         $permission = $this->permission->find($idPermission);
 
         if(!$profile || !$permission) {
-            return redirect()->back();  
-        }   
+            return redirect()->back();
+        }
 
         $profile->permissions()->detach($permission);
-    
+
         return redirect()->route('profiles.permissions', $profile->id);
     }
-    
+
 }

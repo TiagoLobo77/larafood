@@ -8,7 +8,11 @@
         <li class="breadcrumb-item active"><a href="{{ route('categories.index') }}" class="active">Categorias</a></li>
     </ol>
 
-    <h1>Categorias <a href="{{ route('categories.create') }}" class="btn btn-dark">ADD</a></h1>
+    <h1>Categorias
+        @can('add_cat')
+            <a href="{{ route('categories.create') }}" class="btn btn-dark">ADD</a></h1>
+        @endcan
+    </h1>
 @stop
 
 @section('content')
@@ -33,7 +37,7 @@
                     @foreach ($categories as $category)
                         <tr>
                             <td>{{$category->name}}</td>
-                            <td>{{$category->description}}</td>    
+                            <td>{{$category->description}}</td>
                             <td style="width=10px">
                                 <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-info">Edit</a>
                                 <a href="{{ route('categories.show', $category->id) }}" class="btn btn-warning">VER</a>
@@ -47,7 +51,7 @@
             @if (isset($filters))
                 {!! $categories->appends($filters)->links() !!}
             @else
-                {!! $categories->links() !!}            
+                {!! $categories->links() !!}
             @endif
         </div>
     </div>

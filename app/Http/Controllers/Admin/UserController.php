@@ -13,7 +13,9 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->repository = $user;    
+        $this->repository = $user;
+
+        $this->middleware(['can:users']);
     }
 
     /**
@@ -51,7 +53,7 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']); // encrypt password
 
         $this->repository->create($data);
- 
+
         return redirect()->route('users.index');
     }
 
@@ -127,7 +129,7 @@ class UserController extends Controller
     }
 
     /**
-     * Search results 
+     * Search results
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -148,6 +150,6 @@ class UserController extends Controller
                             ->paginate();
 
         return view('admin.pages.users.index', compact('users', 'filters'));
- 
+
     }
 }

@@ -13,7 +13,9 @@ class PermissionController extends Controller
 
     public function __construct(Permission $permission)
     {
-        $this->repository = $permission;    
+        $this->repository = $permission;
+
+        $this->middleware(['can:permissions']);
     }
 
     /**
@@ -47,7 +49,7 @@ class PermissionController extends Controller
     public function store(StoreUpdatepermission $request)
     {
         $this->repository->create($request->all());
- 
+
         return redirect()->route('permissions.index');
     }
 
@@ -117,7 +119,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Search results 
+     * Search results
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -136,6 +138,6 @@ class PermissionController extends Controller
                             ->paginate();
 
         return view('admin.pages.permissions.index', compact('permissions', 'filters'));
- 
+
     }
 }

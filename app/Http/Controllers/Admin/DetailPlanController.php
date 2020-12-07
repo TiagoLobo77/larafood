@@ -16,6 +16,8 @@ class DetailPlanController extends Controller
     {
         $this->repository = $detailPlan;
         $this->plan = $plan;
+
+        $this->middleware(['can:plans']);
     }
 
     public function index($urlPlan)
@@ -38,7 +40,7 @@ class DetailPlanController extends Controller
         if(!$plan = $this->plan->where('url', $urlPlan)->first()) {
             return redirect()->back();
         }
-        
+
         return view('admin.pages.plans.details.create', [
             'plan' => $plan,
         ]);
@@ -66,7 +68,7 @@ class DetailPlanController extends Controller
         if (!$plan || !$detail) {
             return redirect()->back();
         }
-        
+
         return view('admin.pages.plans.details.edit', [
             'plan' => $plan,
             'detail' => $detail,
@@ -95,7 +97,7 @@ class DetailPlanController extends Controller
         if (!$plan || !$detail) {
             return redirect()->back();
         }
-        
+
         return view('admin.pages.plans.details.show', [
             'plan' => $plan,
             'detail' => $detail,
@@ -112,6 +114,6 @@ class DetailPlanController extends Controller
         return redirect()
                 ->route('details.plan.index', $plan->url)
                 ->with('message', 'Registro deletado com sucesso!!');
-      }   
+      }
 
 }

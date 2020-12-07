@@ -8,7 +8,7 @@
         <li class="breadcrumb-item active"><a href="{{ route('products.index') }}" class="active">Categorias</a></li>
     </ol>
 
-    <h1>Usuários <a href="{{ route('products.create') }}" class="btn btn-dark">ADD</a></h1>
+    <h1>Produtos <a href="{{ route('products.create') }}" class="btn btn-dark">ADD</a></h1>
 @stop
 
 @section('content')
@@ -35,7 +35,7 @@
                             <td>
                                 <img src="{{ url("storage/{$product->image}") }}" alt="{{ $product->title }}" style="max-width: 90px;">
                             </td>
-                            <td>{{$product->title}}</td>    
+                            <td>{{$product->title}}</td>
                             <td style="width=10px">
                                 <a href="{{ route('products.categories', $product->id) }}" class="btn btn-warning" title="Categorias"><i class="fas fa-layer-group"></i></a>
                                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-info">Edit</a>
@@ -50,7 +50,7 @@
             @if (isset($filters))
                 {!! $products->appends($filters)->links() !!}
             @else
-                {!! $products->links() !!}            
+                {!! $products->links() !!}
             @endif
         </div>
     </div>

@@ -15,6 +15,8 @@ class ProductController extends Controller
     public function __construct(Product $product)
     {
         $this->repository = $product;
+
+        $this->middleware(['can:products']);
     }
 
     /**
@@ -25,7 +27,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->repository->latest()->paginate();
-        
+
         return view('admin.pages.products.index', compact('products'));
     }
 
@@ -96,7 +98,7 @@ class ProductController extends Controller
      *
      * @param  \App\Http\Requests\StoreUpdateProduct  $request
      * @return int $id
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(StoreUpdateProduct $request, $id)
@@ -108,13 +110,13 @@ class ProductController extends Controller
         $data = $request->all();
 
         $tenant = auth()->user()->tenant;
-        
+
         if ($request->hasFile('image') && $request->image->isValid()) {
-           
+
            if(Storage::exists($product->image)) {
                Storage::delete($product->image);
            }
-           
+
             $data['image'] = $request->image->store("tenants/{$tenant->uuid}/products");
         }
 
@@ -145,7 +147,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Search results 
+     * Search results
      *
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -165,6 +167,6 @@ class ProductController extends Controller
                             ->paginate();
 
         return view('admin.pages.products.index', compact('products', 'filters'));
- 
+
     }
 }

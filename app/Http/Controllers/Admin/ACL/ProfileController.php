@@ -13,7 +13,9 @@ class ProfileController extends Controller
 
     public function __construct(Profile $profile)
     {
-        $this->repository = $profile;    
+        $this->repository = $profile;
+
+        $this->middleware(['can:profiles']);
     }
 
     /**
@@ -47,7 +49,7 @@ class ProfileController extends Controller
     public function store(StoreUpdateProfile $request)
     {
         $this->repository->create($request->all());
- 
+
         return redirect()->route('profiles.index');
     }
 
@@ -117,7 +119,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Search results 
+     * Search results
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -136,6 +138,6 @@ class ProfileController extends Controller
                             ->paginate();
 
         return view('admin.pages.profiles.index', compact('profiles', 'filters'));
- 
+
     }
 }

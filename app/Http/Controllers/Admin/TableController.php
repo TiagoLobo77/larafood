@@ -14,6 +14,8 @@ class TableController extends Controller
     public function __construct(Table $table)
     {
         $this->repository = $table;
+
+        $this->middleware(['can:tables']);
     }
 
     /**
@@ -24,7 +26,7 @@ class TableController extends Controller
     public function index()
     {
         $tables = $this->repository->latest()->paginate();
-        
+
         return view('admin.pages.tables.index', compact('tables'));
     }
 
@@ -87,7 +89,7 @@ class TableController extends Controller
      *
      * @param  \App\Http\Requests\StoreUpdateTable  $request
      * @return int $id
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(StoreUpdateTable $request, $id)
@@ -119,7 +121,7 @@ class TableController extends Controller
     }
 
     /**
-     * Search results 
+     * Search results
      *
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -139,6 +141,6 @@ class TableController extends Controller
                             ->paginate();
 
         return view('admin.pages.tables.index', compact('tables', 'filters'));
- 
+
     }
 }

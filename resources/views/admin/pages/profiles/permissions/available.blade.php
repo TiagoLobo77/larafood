@@ -9,7 +9,7 @@
     </ol>
 
     <h1>Permissões disponíveis perfil <strong>{{$profile->name}}</strong></h1>
-   
+
 @stop
 
 @section('content')
@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                <form action="{{ route('profiles.permissions.atach', $profile->id) }}" method="POST">
+                <form action="{{ route('profiles.permissions.attach', $profile->id) }}" method="POST">
                         @csrf
 
                         @foreach ($permissions as $permission)
@@ -59,7 +59,7 @@
             @if (isset($filters))
                 {!! $permissions->appends($filters)->links() !!}
             @else
-                {!! $permissions->links() !!}            
+                {!! $permissions->links() !!}
             @endif
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\UserACLTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, UserACLTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -48,7 +49,7 @@ class User extends Authenticatable
     {
         return $query->where('tenant_id', auth()->user()->tenant_id);
     }
-    
+
 
     /**
      * Tenant

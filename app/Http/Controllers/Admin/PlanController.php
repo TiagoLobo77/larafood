@@ -14,6 +14,8 @@ class PlanController extends Controller
     public function __construct(Plan $plan)
     {
         $this->repository = $plan;
+
+        $this->middleware(['can:plans']);
     }
 
     public function index()
@@ -29,7 +31,7 @@ class PlanController extends Controller
     {
         return view('admin.pages.plans.create');
     }
-    
+
     public function store(StoreUpdatePlan $request)
     {
         $this->repository->create($request->all());
@@ -43,16 +45,16 @@ class PlanController extends Controller
 
         if (!$plan)
             return redirect()->back();
-        
+
         return view('admin.pages.plans.show', [
             'plan' => $plan
-        ]);    
+        ]);
     }
 
     public function destroy($url)
     {
         $plan = $this->repository
-                        ->with('details')        
+                        ->with('details')
                         ->where('url', $url)
                         ->first();
 
@@ -63,7 +65,7 @@ class PlanController extends Controller
             return redirect()
                         ->back()
                         ->with('error', 'Existem detalhes vinculados a esse plano, portanto não pode deletar!!');
-        }    
+        }
 
         $plan->delete();
 
@@ -97,7 +99,7 @@ class PlanController extends Controller
     public function update(StoreUpdatePlan $request, $url)
     {
         $plan = $this->repository->where('url', $url)->first();
-        
+
         if (!$plan)
         return redirect()->back();
 

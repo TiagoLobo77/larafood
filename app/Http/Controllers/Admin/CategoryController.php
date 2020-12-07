@@ -14,6 +14,9 @@ class CategoryController extends Controller
     public function __construct(Category $category)
     {
         $this->repository = $category;
+
+        $this->middleware(['can:categories']);
+
     }
 
     /**
@@ -24,7 +27,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = $this->repository->latest()->paginate();
-        
+
         return view('admin.pages.categories.index', compact('categories'));
     }
 
@@ -87,7 +90,7 @@ class CategoryController extends Controller
      *
      * @param  \App\Http\Requests\StoreUpdateCategory  $request
      * @return int $id
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(StoreUpdateCategory $request, $id)
@@ -119,7 +122,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Search results 
+     * Search results
      *
      * @param  Request $request
      * @return \Illuminate\Http\Response
@@ -139,6 +142,6 @@ class CategoryController extends Controller
                             ->paginate();
 
         return view('admin.pages.categories.index', compact('categories', 'filters'));
- 
+
     }
 }
