@@ -151,6 +151,7 @@ class TenantController extends Controller
                             ->where(function($query) use ($request) {
                                 if ($request->filter) {
                                     $query->where('name', $request->filter);
+                                    $query->orWhere('name', 'LIKE', "%{$request->filter}%");
                                 }
                             })
                             ->latest()

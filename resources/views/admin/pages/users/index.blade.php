@@ -33,10 +33,11 @@
                     @foreach ($users as $user)
                         <tr>
                             <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>    
+                            <td>{{$user->email}}</td>
                             <td style="width=10px">
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info">Edit</a>
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-warning">VER</a>
+                                <a href="{{ route('users.roles', $user->id) }}" class="btn btn-info" title="Cargos"><i class="fas fa-address-card"> Cargos</i></a>
                            </td>
                         </tr>
                     @endforeach
@@ -47,7 +48,7 @@
             @if (isset($filters))
                 {!! $users->appends($filters)->links() !!}
             @else
-                {!! $users->links() !!}            
+                {!! $users->links() !!}
             @endif
         </div>
     </div>

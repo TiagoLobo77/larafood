@@ -6,9 +6,34 @@ Route::prefix('admin')
         ->group(function() {
 
     /**
+     * Role x User
+     */
+    Route::get('users/{id}/role/{idRole}/detach', 'ACL\RoleUserController@detachRoleUser')->name('users.role.detach');
+    Route::post('users/{id}/roles', 'ACL\RoleUserController@attachRolesUser')->name('users.roles.attach');
+    Route::any('users/{id}/roles/create', 'ACL\RoleUserController@rolesAvailable')->name('users.roles.available');
+    Route::get('users/{id}/roles', 'ACL\RoleUserController@roles')->name('users.roles');
+    Route::get('roles/{id}/users', 'ACL\RoleUserController@users')->name('roles.users');
+
+
+    /**
+     * Permission x Role
+     */
+    Route::get('roles/{id}/permission/{idPermission}/detach', 'ACL\PermissionRoleController@detachPermissionRole')->name('roles.permission.detach');
+    Route::post('roles/{id}/permissions', 'ACL\PermissionRoleController@attachPermissionsRole')->name('roles.permissions.attach');
+    Route::any('roles/{id}/permissions/create', 'ACL\PermissionRoleController@permissionsAvailable')->name('roles.permissions.available');
+    Route::get('roles/{id}/permissions', 'ACL\PermissionRoleController@permissions')->name('roles.permissions');
+    Route::get('permissions/{id}/role', 'ACL\PermissionRoleController@roles')->name('permissions.roles');
+
+    /**
+     * Routes Roles
+     */
+    Route::any('roles/search', 'ACL\RoleController@search')->name('roles.search');
+    Route::resource('roles', 'ACL\RoleController');
+
+    /**
      * Routes Tenants
      */
-    Route::any('tenants.search', 'TenantController@search')->name('tenants.search');
+    Route::any('tenants/search', 'TenantController@search')->name('tenants.search');
     Route::resource('tenants', 'TenantController');
 
     /**
@@ -16,7 +41,6 @@ Route::prefix('admin')
      */
     Route::any('tables/search', 'TableController@search')->name('tables.search');
     Route::resource('tables', 'TableController');
-
 
     /**
      * Product x Category
@@ -27,11 +51,11 @@ Route::prefix('admin')
     Route::get('products/{id}/categories', 'CategoryProductController@categories')->name('products.categories');
     Route::get('categories/{id}/products', 'CategoryProductController@products')->name('categories.products');
 
-     /**
+    /**
      * Routes Products
      */
-    Route::any('products/search', 'ProductController@search')->name('products.search')->middleware('can:products');
-    Route::resource('products', 'ProductController')->middleware('can:products');
+    Route::any('products/search', 'ProductController@search')->name('products.search');
+    Route::resource('products', 'ProductController');
 
 
     /**
@@ -39,6 +63,7 @@ Route::prefix('admin')
      */
     Route::any('categories/search', 'CategoryController@search')->name('categories.search');
     Route::resource('categories', 'CategoryController');
+
 
     /**
      * Routes Users
@@ -49,11 +74,11 @@ Route::prefix('admin')
     /**
      * Plan x Profile
      */
-    Route::get('plans/{id}/profile/{idProfile}/detach', 'ACL\PlanProfileController@detachProfilePlan')->name('plans.profile.detach');
-    Route::post('plans/{id}/profiles', 'ACL\PlanProfileController@attachProfilesPlan')->name('plans.profiles.attach');
-    Route::any('plans/{id}/profiles/create', 'ACL\PlanProfileController@profilesAvailable')->name('plans.profiles.available');
-    Route::get('plans/{id}/profiles', 'ACL\PlanProfileController@profiles')->name('plans.profiles');
-    Route::get('profiles/{id}/plans', 'ACL\PlanProfileController@plans')->name('profiles.plans');
+    Route::get('plans/{id}/role/{idProfile}/detach', 'ACL\PlanProfileController@detachProfilePlan')->name('plans.role.detach');
+    Route::post('plans/{id}/roles', 'ACL\PlanProfileController@attachProfilesPlan')->name('plans.roles.attach');
+    Route::any('plans/{id}/roles/create', 'ACL\PlanProfileController@rolesAvailable')->name('plans.roles.available');
+    Route::get('plans/{id}/roles', 'ACL\PlanProfileController@roles')->name('plans.roles');
+    Route::get('roles/{id}/plans', 'ACL\PlanProfileController@plans')->name('roles.plans');
 
     /**
      * Permission x Profile
