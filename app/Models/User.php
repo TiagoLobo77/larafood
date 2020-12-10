@@ -40,7 +40,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Scope a query to only include by tenant.
+     * Scope a query to only users by tenant
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -58,7 +58,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Tenant::class);
     }
-
 
     /**
      * Get Roles

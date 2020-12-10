@@ -58,13 +58,13 @@ class PlanController extends Controller
                         ->where('url', $url)
                         ->first();
 
-        if(!$plan)
+        if (!$plan)
             return redirect()->back();
 
         if ($plan->details->count() > 0) {
             return redirect()
                         ->back()
-                        ->with('error', 'Existem detalhes vinculados a esse plano, portanto não pode deletar!!');
+                        ->with('error', 'Existem detahes vinculados a esse plano, portanto não pode deletar');
         }
 
         $plan->delete();
@@ -101,7 +101,7 @@ class PlanController extends Controller
         $plan = $this->repository->where('url', $url)->first();
 
         if (!$plan)
-        return redirect()->back();
+            return redirect()->back();
 
         $plan->update($request->all());
 
