@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-   protected $fillable = ['name','description'];
+    protected $fillable = ['name', 'description'];
 
 
-   /**
-    * Get Permissions
-    */
+    /**
+     * Get Permissions
+     */
     public function permissions()
     {
-       return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class);
     }
 
     /**
@@ -22,25 +22,25 @@ class Profile extends Model
      */
     public function plans()
     {
-       return $this->belongsToMany(Plan::class);
+        return $this->belongsToMany(Plan::class);
     }
 
     /**
-     * Permission note linked with this profile
+     * Permission not linked with this profile
      */
     public function permissionsAvailable($filter = null)
     {
-       $permissions = Permission::whereNotIn('permissions.id', function($query) {
+        $permissions = Permission::whereNotIn('permissions.id', function($query) {
             $query->select('permission_profile.permission_id');
             $query->from('permission_profile');
             $query->whereRaw("permission_profile.profile_id={$this->id}");
-       })
-       ->where(function ($queryFilter) use ($filter) {
+        })
+        ->where(function ($queryFilter) use ($filter) {
             if ($filter)
-            $queryFilter->where('permissions.name', 'LIKE', "%{$filter}%");
-       })
-       ->paginate();
+                $queryFilter->where('permissions.name', 'LIKE', "%{$filter}%");
+        })
+        ->paginate();
 
-       return $permissions;
+        return $permissions;
     }
 }

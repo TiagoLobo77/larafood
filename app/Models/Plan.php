@@ -23,15 +23,15 @@ class Plan extends Model
     {
         return $this->hasMany(Tenant::class);
     }
-    
+
 
     public function search($filter = null)
     {
-        $result = $this->where('name', 'LIKE', "%{$filter}%")
-                       ->orWhere('description', 'LIKE', "%{$filter}%")
-                       ->paginate();
-        
-        return $result;               
+        $results = $this->where('name', 'LIKE', "%{$filter}%")
+                        ->orWhere('description', 'LIKE', "%{$filter}%")
+                        ->paginate();
+
+        return $results;
     }
 
     /**
@@ -39,17 +39,17 @@ class Plan extends Model
      */
     public function profilesAvailable($filter = null)
     {
-       $profiles = Profile::whereNotIn('profiles.id', function($query) {
+        $profiles = Profile::whereNotIn('profiles.id', function($query) {
             $query->select('plan_profile.profile_id');
             $query->from('plan_profile');
-            $query->whereRaw("plan_profile.plan_id={$this->id}");   
-       })
-       ->where(function ($queryFilter) use ($filter) {
-            if ($filter) 
-            $queryFilter->where('profiles.name', 'LIKE', "%{$filter}%");
-       })
-       ->paginate();
+            $query->whereRaw("plan_profile.plan_id={$this->id}");
+        })
+        ->where(function ($queryFilter) use ($filter) {
+            if ($filter)
+                $queryFilter->where('profiles.name', 'LIKE', "%{$filter}%");
+        })
+        ->paginate();
 
-       return $profiles;
+        return $profiles;
     }
 }

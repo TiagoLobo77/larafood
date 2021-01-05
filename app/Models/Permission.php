@@ -10,11 +10,11 @@ class Permission extends Model
 
 
     /**
-    * Get Profiles
-    */
+     * Get Profiles
+     */
     public function profiles()
     {
-       return $this->belongsToMany(Profile::class);
+        return $this->belongsToMany(Profile::class);
     }
 
     /**
