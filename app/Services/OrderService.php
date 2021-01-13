@@ -109,7 +109,7 @@ class OrderService
         foreach ($products as $product) {
             $total += ($product['price'] * $product['qty']);
         }
-        dd($total);
+        //dd($total);
         return (float) $total;
     }
 
