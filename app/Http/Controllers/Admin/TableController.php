@@ -61,7 +61,7 @@ class TableController extends Controller
      */
     public function show($id)
     {
-        if(!$table = $this->repository->find($id)) {
+        if (!$table = $this->repository->find($id)) {
             return redirect()->back();
         }
 
@@ -76,7 +76,7 @@ class TableController extends Controller
      */
     public function edit($id)
     {
-        if(!$table = $this->repository->find($id)) {
+        if (!$table = $this->repository->find($id)) {
             return redirect()->back();
         }
 
@@ -88,13 +88,13 @@ class TableController extends Controller
      * Update register by id
      *
      * @param  \App\Http\Requests\StoreUpdateTable  $request
-     * @return int $id
+     * @param  int  $id
      *
      * @return \Illuminate\Http\Response
      */
     public function update(StoreUpdateTable $request, $id)
     {
-        if(!$table = $this->repository->find($id)) {
+        if (!$table = $this->repository->find($id)) {
             return redirect()->back();
         }
 
@@ -111,7 +111,7 @@ class TableController extends Controller
      */
     public function destroy($id)
     {
-        if(!$table = $this->repository->find($id)) {
+        if (!$table = $this->repository->find($id)) {
             return redirect()->back();
         }
 
@@ -119,6 +119,7 @@ class TableController extends Controller
 
         return redirect()->route('tables.index');
     }
+
 
     /**
      * Search results
@@ -132,7 +133,7 @@ class TableController extends Controller
 
         $tables = $this->repository
                             ->where(function($query) use ($request) {
-                                if($request->filter) {
+                                if ($request->filter) {
                                     $query->orWhere('description', 'LIKE', "%{$request->filter}%");
                                     $query->orWhere('identify', $request->filter);
                                 }
@@ -141,6 +142,24 @@ class TableController extends Controller
                             ->paginate();
 
         return view('admin.pages.tables.index', compact('tables', 'filters'));
+    }
 
+    /**
+     * Generate QrCode Table
+     *
+     * @param  string  $identify
+     * @return \Illuminate\Http\Response
+     */
+    public function qrcode($identify)
+    {
+        if (!$table = $this->repository->where('identify', $identify)->first()) {
+            return redirect()->back();
+        }
+
+        $tenant = auth()->user()->tenant;
+
+        $uri = env('URI_CLIENT') . "/{$tenant->uuid}/{$table->uuid}";
+
+        return view('admin.pages.tables.qrcode', compact('uri'));
     }
 }

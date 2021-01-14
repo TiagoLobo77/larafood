@@ -14,9 +14,9 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-        <form action="{{ route('tables.search') }}" method="POST" class="form form-inline">
+            <form action="{{ route('tables.search') }}" method="POST" class="form form-inline">
                 @csrf
-        <input type="text" name="filter" placeholder="Filtrar" class="form-control" value="{{ $filters['filter'] ?? ''}}">
+                <input type="text" name="filter" placeholder="Filtrar:" class="form-control" value="{{ $filters['filter'] ?? '' }}">
                 <button type="submit" class="btn btn-dark">Filtrar</button>
             </form>
         </div>
@@ -26,18 +26,21 @@
                     <tr>
                         <th>Identify</th>
                         <th>Descrição</th>
-                        <th width="150">Ações</th>
+                        <th width="190">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($tables as $table)
                         <tr>
-                            <td>{{$table->identify}}</td>
-                            <td>{{$table->description}}</td>    
-                            <td style="width=10px">
+                            <td>{{ $table->identify }}</td>
+                            <td>{{ $table->description }}</td>
+                            <td style="width=10px;">
+                                <a href="{{ route('tables.qrcode', $table->identify) }}" class="btn btn-default" target="_blank">
+                                    <i class="fas fa-qrcode"></i>
+                                </a>
                                 <a href="{{ route('tables.edit', $table->id) }}" class="btn btn-info">Edit</a>
                                 <a href="{{ route('tables.show', $table->id) }}" class="btn btn-warning">VER</a>
-                           </td>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -47,7 +50,7 @@
             @if (isset($filters))
                 {!! $tables->appends($filters)->links() !!}
             @else
-                {!! $tables->links() !!}            
+                {!! $tables->links() !!}
             @endif
         </div>
     </div>

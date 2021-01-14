@@ -1,15 +1,5 @@
 <?php
 
-use App\Models\Client;
-
-Route::get('teste', function() {
-    $client = Client::first();
-
-    $token = $client->createToken('token-teste');
-
-    dd($token->plainTextToken);
-});
-
 Route::prefix('admin')
         ->namespace('Admin')
         ->middleware('auth')
@@ -24,7 +14,6 @@ Route::prefix('admin')
     Route::get('users/{id}/roles', 'ACL\RoleUserController@roles')->name('users.roles');
     Route::get('roles/{id}/users', 'ACL\RoleUserController@users')->name('roles.users');
 
-
     /**
      * Permission x Role
      */
@@ -35,7 +24,7 @@ Route::prefix('admin')
     Route::get('permissions/{id}/role', 'ACL\PermissionRoleController@roles')->name('permissions.roles');
 
     /**
-     * Routes Roles
+     * Routes Profiles
      */
     Route::any('roles/search', 'ACL\RoleController@search')->name('roles.search');
     Route::resource('roles', 'ACL\RoleController');
@@ -49,6 +38,7 @@ Route::prefix('admin')
     /**
      * Routes Tables
      */
+    Route::get('tables/qrcode/{identify}', 'TableController@qrcode')->name('tables.qrcode');
     Route::any('tables/search', 'TableController@search')->name('tables.search');
     Route::resource('tables', 'TableController');
 
